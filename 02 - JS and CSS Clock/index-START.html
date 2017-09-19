@@ -62,12 +62,29 @@
       background:black;
       position: absolute;
       top:50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: all .05s cubic-bezier(0.89, 0.27, 0.08, 1.4);
     }
 
   </style>
 
   <script>
+  const clock = {
+    hours: document.querySelector('.hour-hand'),
+    minutes: document.querySelector('.min-hand'),
+    seconds: document.querySelector('.second-hand')
+  }
 
+  function setDate() {
+    const date = new Date()
+    const seconds = date.getSeconds()
+    const secondDeg = `${(seconds/60)*360}deg`
+    clock.seconds.style.cssText = `transform: rotate(${secondDeg})`
+    console.log(seconds)
+  }
+
+  setInterval(setDate, 1000)
 
   </script>
 </body>
