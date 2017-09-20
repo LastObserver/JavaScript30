@@ -64,27 +64,52 @@
       top:50%;
       transform-origin: 100%;
       transform: rotate(90deg);
-      transition: all .05s cubic-bezier(0.89, 0.27, 0.08, 1.4);
+      transition: all .05s cubic-bezier(1, 0.7, 0, 1.39);
     }
 
   </style>
 
   <script>
-  const clock = {
-    hours: document.querySelector('.hour-hand'),
-    minutes: document.querySelector('.min-hand'),
-    seconds: document.querySelector('.second-hand')
+  class MyClock {
+    constructor(domNode) {
+      this.clock = domNode
+      this.arrows = {
+        hours: this.clock.querySelector('.hour-hand'),
+        minutes: this.clock.querySelector('.min-hand'),
+        seconds: this.clock.querySelector('.second-hand')
+      }
+      this.intervalID = null
+      this.start.bind(this)
+      this.stop.bind(this)
+    }
+
+    setTime() {
+      const date = new Date()
+      const seconds = date.getSeconds()/60*360 + 90
+      const minutes = date.getMinutes()/60*360 + 90
+      const hours = date.getHours()/12*360 + 90
+
+      this.arrows.seconds.style.cssText = this.getTransformProp(seconds)
+      this.arrows.minutes.style.cssText = this.getTransformProp(minutes)
+      this.arrows.hours.style.cssText = this.getTransformProp(hours)
+    }
+
+    getTransformProp(deg) {
+      return `transform: rotate(${deg}deg)`
+    }
+
+    start() {
+      this.intervalID = setInterval(this.setTime.bind(this), 1000)
+    }
+
+    stop() {
+      clearInterval(this.intervalID)
+    }
   }
 
-  function setDate() {
-    const date = new Date()
-    const seconds = date.getSeconds()
-    const secondDeg = `${(seconds/60)*360}deg`
-    clock.seconds.style.cssText = `transform: rotate(${secondDeg})`
-    console.log(seconds)
-  }
+  const superClock = new MyClock(document.querySelector('.clock'))
 
-  setInterval(setDate, 1000)
+  superClock.start()
 
   </script>
 </body>
