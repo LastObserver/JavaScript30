@@ -92,10 +92,15 @@
       this.arrows.seconds.style.cssText = this.getTransformProp(seconds)
       this.arrows.minutes.style.cssText = this.getTransformProp(minutes)
       this.arrows.hours.style.cssText = this.getTransformProp(hours)
+
+      this.arrows.seconds.style.cssText.replace(/transition-duration: 0s;/,'')
+      this.arrows.minutes.style.cssText.replace(/transition-duration: 0s;/,'')
+      this.arrows.hours.style.cssText.replace(/transition-duration: 0s;/,'')
+
     }
 
     getTransformProp(deg) {
-      return `transform: rotate(${deg}deg)`
+      return `transform: rotate(${deg}deg);${deg === 90 && 'transition-duration: 0s;'}`
     }
 
     start() {
